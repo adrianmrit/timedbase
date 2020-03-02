@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from main.models import Watch
+from main.models import Watch, Brand
 import json
 from django.contrib.auth.decorators import permission_required
 from rest_framework.decorators import api_view, permission_classes
@@ -15,6 +15,11 @@ def add_watch_view(request):
         if not request.user.has_perm('main.add_watch'):
             return HttpResponse(status=403)
         data = json.loads(request.body)
+        data['brand'] = ''.join(x for x in data['brand'] if x.isalnum()).lower()
+        try:
+            data['brand'] = Brand.objects.get(cleaned_name=data['brand'])
+        except Brand.DoesNotExist:
+            return HttpResponse(status=409)
         obj, created = Watch.objects.get_or_create(**data)
         return HttpResponse(status=200)
     else:
