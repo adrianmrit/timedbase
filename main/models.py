@@ -1,18 +1,35 @@
 from django.db import models
+from django_countries.fields import CountryField
 
 # Create your models here.
+class Brand(models.Model):
+    name = models.CharField(max_length=60, unique=True)
+    cleaned_name = models.CharField(max_length=60, unique=True)
+    country = CountryField(blank=True, null=True)
+    website = models.URLField()
+    description = models.CharField(max_length=2000, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        self.cleaned_name = ''.join(x for x in self.name if x.isalnum()).lower()
+
+        super(Brand, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+
 
 class Watch(models.Model):
     url = models.URLField(unique=True)
     image = models.URLField(blank=True, null=True)
-    name = models.CharField(max_length=250)
-    brand = models.CharField(max_length=250)
-    cleaned_brand = models.CharField(max_length=250)
-    reference = models.CharField(max_length=80)
-    cleaned_reference = models.CharField(max_length=80)
-    description = models.TextField(max_length=500, blank=True)
+    name = models.CharField(max_length=60)
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
+    # cleaned_brand = models.CharField(max_length=60)
+    reference = models.CharField(max_length=30)
+    cleaned_reference = models.CharField(max_length=30)
+    description = models.TextField(max_length=2000, blank=True)
 
-    origin = models.CharField(max_length=80, null=True, blank=True)
+    origin = models.CharField(max_length=30, null=True, blank=True)
     collection = models.CharField(max_length=80, null=True, blank=True)
     water_resistance = models.CharField(max_length=80, null=True, blank=True)
     case_shape = models.CharField(max_length=80, null=True, blank=True)
@@ -44,12 +61,10 @@ class Watch(models.Model):
         return "{} {}".format(self.name, self.reference)
 
     def save(self, *args, **kwargs):
-        self.cleaned_brand = ''.join(x for x in self.brand if x.isalnum()).lower()
         self.cleaned_reference = ''.join(x for x in self.reference if x.isalnum()).lower()
-
-        print(self.cleaned_brand, self.cleaned_reference)
 
         super(Watch, self).save(*args, **kwargs)
 
     class Meta:
-        unique_together = [['cleaned_brand', 'cleaned_reference'], ['brand', 'reference']]
+        unique_together = [['brand', 'cleaned_reference'], ['brand', 'reference']]
+        verbose_name_plural = "watches"
