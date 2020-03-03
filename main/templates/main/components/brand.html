@@ -1,7 +1,8 @@
 {% load static %}
+{% load thumbnail %}
 <div class="card my-2 e-shadow">
     {% if brand.logo %}
-        <img src="{{ brand.logo.url }}" class="card-img-top" alt="{{ brand.name }}">
+        <img src="{{ brand.logo|thumbnail_url:'card' }}" class="card-img-top" alt="{{ brand.name }}">
     {% else %}
         <img src="{% static "images/defaultbrand.png" %}" class="card-img-top" alt="{{ brand.name }}">
     {% endif %}
