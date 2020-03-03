@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+        <div class="col">
+            <div class="jumbotron mt-3 text-center">
+            {% for l in alphabet%}
+                {% if l == active_letter %}
+                    <a href="{% url 'main:brands' l%}" class="btn btn-primary disabled" role="button" aria-disabled="true">{{ l }}</a>
+                {% elif l in available_alphabet %}
+                    <a href="{% url 'main:brands' l%}" class="btn btn-link" role="button">{{ l }}</a>
+                {% else %}
+                    <a href="{% url 'main:brands' l%}" class="btn btn-link disabled" role="button" aria-disabled="true">{{ l }}</a>
+                {% endif %}
+            {% endfor %}
+            </div>
+            <div class="row">
+                {% for brand in brands %}
+                <div class="card mx-1" style="width: 18rem;">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ brand.name }}</h5>
+                        <p class="card-text">{{ brand.description|default:"" }}</p>
+                        <a href="#" class="btn btn-primary stretched-link">View</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        </div>
+    </div>
+{% endblock %}
