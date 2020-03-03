@@ -29,7 +29,7 @@ class Watch(models.Model):
     cleaned_reference = models.CharField(max_length=30)
     description = models.TextField(max_length=2000, blank=True)
 
-    image=models.ImageField(upload_to='watch_image/', blank=True, null=True)
+    image = models.ImageField(upload_to='watch_image/', blank=True, null=True)
 
     origin = models.CharField(max_length=30, null=True, blank=True)
     collection = models.CharField(max_length=80, null=True, blank=True)

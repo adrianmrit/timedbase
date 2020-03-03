@@ -14,13 +14,17 @@ def add_watch_view(request):
     if request.method == 'POST':
         if not request.user.has_perm('main.add_watch'):
             return HttpResponse(status=403)
-        data = json.loads(request.body)
+        data = json.loads(request.data['json'])
         data['brand'] = ''.join(x for x in data['brand'] if x.isalnum()).lower()
         try:
             data['brand'] = Brand.objects.get(cleaned_name=data['brand'])
         except Brand.DoesNotExist:
             return HttpResponse(status=409)
-        obj, created = Watch.objects.get_or_create(**data)
+
+        watch = Watch(**data)
+        # watch.save()
+        watch.image = request.FILES["image"]
+        watch.save()
         return HttpResponse(status=200)
     else:
         return HttpResponse(status=405)
