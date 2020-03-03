@@ -1,0 +1,9 @@
+{% load static %}
+<div class="card my-2 e-shadow">
+    <img src="{% static "images/defaultbrand.png" %}" class="card-img-top" alt="{{ watch.name }}">
+    <div class="card-body  d-flex flex-column">
+        <h5 class="card-title">{{ watch.name|truncatechars:25 }}</h5>
+        <p class="card-text">{{ watch.description|default:""|truncatechars:50 }}</p>
+        <a href="{% url "main:watch" watch.id %}" class="btn btn-lg btn-block btn-primary mt-auto stretched-link">View</a>
+    </div>
+</div>

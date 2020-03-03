@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ brand.name }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="e-shadow p-3 mb-5 mt-2 bg-white rounded" style="">
+                    <img src="{% static "images/defaultbrand.png" %}" class="img-fluid" alt="Responsive image">
+                    <h2>{{ brand.name }}</h2>
+                    <p>{{ brand.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+                <div class="row">
+                    {% for watch in brand.watches.all %}
+                        <div class="col-2 d-flex align-items-stretch justify-content-center">
+                            {% include "main/components/watch.html" %}
+                        </div>
+                    {% endfor %}
+                </div>
+                </div>
+{% endblock %}

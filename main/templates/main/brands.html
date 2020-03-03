@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Brands{% endblock %}
 
 {% block content %}
     <div class="container-fluid">
@@ -20,13 +20,8 @@
             </div>
             <div class="row px-2">
                 {% for brand in brands %}
-                <div class="card mx-2" style="width: 18rem;">
-                    <img src="{% static "images/defaultbrand.png" %}" class="card-img-top" alt="{{ brand.name }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ brand.name }}</h5>
-                        <p class="card-text">{{ brand.description|default:"" }}</p>
-                        <a href="#" class="btn btn-primary stretched-link">View</a>
-                    </div>
+                <div class="col-2 d-flex align-items-stretch justify-content-center">
+                    {% include "main/components/brand.html" %}
                 </div>
                 {% endfor %}
             </div>

@@ -23,7 +23,7 @@ class Watch(models.Model):
     url = models.URLField(unique=True)
     image = models.URLField(blank=True, null=True)
     name = models.CharField(max_length=60)
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name="watches", related_query_name="watch",)
     # cleaned_brand = models.CharField(max_length=60)
     reference = models.CharField(max_length=30)
     cleaned_reference = models.CharField(max_length=30)
