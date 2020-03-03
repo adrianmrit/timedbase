@@ -8,6 +8,7 @@ class Brand(models.Model):
     country = CountryField(blank=True, null=True)
     website = models.URLField()
     description = models.CharField(max_length=2000, blank=True, null=True)
+    logo=models.ImageField(upload_to='brand_logo/', blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.cleaned_name = ''.join(x for x in self.name if x.isalnum()).lower()
@@ -24,10 +25,11 @@ class Watch(models.Model):
     image = models.URLField(blank=True, null=True)
     name = models.CharField(max_length=60)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name="watches", related_query_name="watch",)
-    # cleaned_brand = models.CharField(max_length=60)
     reference = models.CharField(max_length=30)
     cleaned_reference = models.CharField(max_length=30)
     description = models.TextField(max_length=2000, blank=True)
+
+    image=models.ImageField(upload_to='watch_image/', blank=True, null=True)
 
     origin = models.CharField(max_length=30, null=True, blank=True)
     collection = models.CharField(max_length=80, null=True, blank=True)
