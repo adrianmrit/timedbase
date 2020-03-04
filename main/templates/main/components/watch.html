@@ -2,7 +2,7 @@
 {% load thumbnail %}
 <div class="card my-2 e-shadow">
     {% if watch.image %}
-        <img src="{{ watch.image.url }}" class="card-img-top" alt="{{ brand.name }}">
+        <img src="{{ watch.image|thumbnail_url:'card' }}" class="card-img-top" alt="{{ brand.name }}">
     {% else %}
         <img src="{% static "images/defaultbrand.png" %}" class="card-img-top" alt="{{ brand.name }}">
     {% endif %}
