@@ -7,8 +7,10 @@ from django.views import View
 
 # Create your views here.
 
-def index(request):
-    return render(request, 'main/index.html')
+class IndexView(View):
+    def get(self, request):
+        # TODO: Better home page
+        return render(request, 'main/index.html')
 
 
 class BrandsView(View):
@@ -32,7 +34,7 @@ class BrandView(View):
         return render(request, 'main/brand.html', {'brand': brand})
 
 
-class BrandView(View):
+class WatchView(View):
     def get(self, request, id):
         watch = get_object_or_404(Watch, pk=id)
 
