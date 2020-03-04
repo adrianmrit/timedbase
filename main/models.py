@@ -1,5 +1,6 @@
 from django.db import models
 from django_countries.fields import CountryField
+from utils.strings import super_clean_str
 
 # Create your models here.
 class Brand(models.Model):
@@ -11,7 +12,7 @@ class Brand(models.Model):
     logo=models.ImageField(upload_to='brand_logo/', blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        self.cleaned_name = ''.join(x for x in self.name if x.isalnum()).lower()
+        self.cleaned_name = super_clean_str(self.name)
 
         super(Brand, self).save(*args, **kwargs)
 
@@ -63,7 +64,7 @@ class Watch(models.Model):
         return "{} {}".format(self.name, self.reference)
 
     def save(self, *args, **kwargs):
-        self.cleaned_reference = ''.join(x for x in self.reference if x.isalnum()).lower()
+        self.cleaned_reference = super_clean_str(self.reference)
 
         super(Watch, self).save(*args, **kwargs)
 
