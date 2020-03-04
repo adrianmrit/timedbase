@@ -141,12 +141,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+
+# Media and static storage
 USE_S3 = True
 
 if USE_S3:
-    from timedbase.privatesettings import *
-else:
+    from timedbase.privatesettings import *  # import private settings for storage
+else:  # for local development
     STATIC_URL = '/static/'
+    MEDIA_URL = '/media/'
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)

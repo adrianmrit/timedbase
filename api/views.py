@@ -11,6 +11,10 @@ from rest_framework.permissions import IsAuthenticated
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def add_watch_view(request):
+    # TODO: clean the code and use class based views.
+    """View used by the crawler to upload watches.
+    Testing using the crawler is easier.
+    """
     if request.method == 'POST':
         if not request.user.has_perm('main.add_watch'):
             return HttpResponse(status=403)
