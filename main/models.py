@@ -1,13 +1,14 @@
 from django.db import models
 from django_countries.fields import CountryField
 from utils.strings import super_clean_str
+from djmoney.models.fields import MoneyField
 
 # Create your models here.
 class Brand(models.Model):
     name = models.CharField(max_length=60, unique=True)
     cleaned_name = models.CharField(max_length=60, unique=True)
     country = CountryField(blank=True, null=True)
-    website = models.URLField()
+    url = models.URLField()
     description = models.CharField(max_length=2000, blank=True, null=True)
     logo=models.ImageField(upload_to='brand_logo/', blank=True, null=True)
 
@@ -20,9 +21,9 @@ class Brand(models.Model):
         return self.name
 
 
-
+# TODO: fix fields
 class Watch(models.Model):
-    url = models.URLField(unique=True)
+    url = models.URLField(unique=True, blank=True, null=True)
     image = models.URLField(blank=True, null=True)
     name = models.CharField(max_length=60)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name="watches", related_query_name="watch",)
@@ -71,3 +72,24 @@ class Watch(models.Model):
     class Meta:
         unique_together = [['brand', 'cleaned_reference'], ['brand', 'reference']]
         verbose_name_plural = "watches"
+
+
+class Price(models.Model):
+    price = MoneyField(max_digits=14, decimal_places=2, default_currency='USD')
+    url = models.URLField()
+    store = models.ForeignKey("main.Store", on_delete=models.CASCADE)
+    watch = models.ForeignKey("main.Watch", on_delete=models.CASCADE)
+
+
+class Store(models.Model):
+    name = models.CharField(max_length=60, unique=True)
+    url = models.URLField(unique=True)
+    cleaned_name = models.CharField(max_length=60, unique=True)
+
+    def save(self, *args, **kwargs):
+        self.cleaned_name = super_clean_str(self.name)
+
+        super(Store, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name

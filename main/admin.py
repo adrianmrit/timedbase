@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Watch, Brand
+from .models import Watch, Brand, Store
 # Register your models here.
 
 class BrandAdmin(admin.ModelAdmin):
@@ -10,3 +10,4 @@ class WatchAdmin(admin.ModelAdmin):
 
 admin.site.register(Watch, WatchAdmin)
 admin.site.register(Brand, BrandAdmin)
+admin.site.register(Store, BrandAdmin)

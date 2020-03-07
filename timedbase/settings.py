@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'storages',
     'easy_thumbnails',
+    'djmoney',
 ]
 
 REST_FRAMEWORK = {
