@@ -29,11 +29,12 @@ class Watch(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name="watches", related_query_name="watch",)
     reference = models.CharField(max_length=30)
     cleaned_reference = models.CharField(max_length=30)
-    description = models.TextField(max_length=2000, blank=True)
+    description = models.TextField(max_length=2000, blank=True, null=True)
 
     image = models.ImageField(upload_to='watch_image/', blank=True, null=True)
 
     origin = models.CharField(max_length=30, null=True, blank=True)
+    gender = models.CharField(max_length=30, null=True, blank=True)
     collection = models.CharField(max_length=80, null=True, blank=True)
     water_resistance = models.CharField(max_length=80, null=True, blank=True)
     case_shape = models.CharField(max_length=80, null=True, blank=True)
@@ -44,6 +45,7 @@ class Watch(models.Model):
     case_back = models.CharField(max_length=80, null=True, blank=True)
     crystal = models.CharField(max_length=80, null=True, blank=True)
     case_material = models.CharField(max_length=80, null=True, blank=True)
+    bezel_material = models.CharField(max_length=80, null=True, blank=True)
     weight = models.CharField(max_length=80, null=True, blank=True)
     lugs_width = models.CharField(max_length=80, null=True, blank=True)
     movement_type = models.CharField(max_length=80, null=True, blank=True)
@@ -79,6 +81,10 @@ class Price(models.Model):
     url = models.URLField()
     store = models.ForeignKey("main.Store", on_delete=models.CASCADE)
     watch = models.ForeignKey("main.Watch", on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+    def __str__(self):
+        return "{} timestamp:{}".format(self.watch.cleaned_reference, self.timestamp)
 
 
 class Store(models.Model):

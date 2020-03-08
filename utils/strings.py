@@ -8,3 +8,6 @@ def super_clean_str(string):
         String -- Cleaned string
     """
     return ''.join(x for x in string if x.isalnum()).lower()
+
+def super_clean_price(string):
+    return ''.join(x for x in string if x.isalnum() or x=='.')
