@@ -2,6 +2,13 @@ from django.db import models
 from django_countries.fields import CountryField
 from utils.strings import super_clean_str
 from djmoney.models.fields import MoneyField
+from easy_thumbnails.signals import saved_file
+from easy_thumbnails.signal_handlers import generate_aliases_global
+
+
+# generate thumbnails on upload
+saved_file.connect(generate_aliases_global)
+
 
 # Create your models here.
 class Brand(models.Model):
@@ -14,7 +21,6 @@ class Brand(models.Model):
 
     def save(self, *args, **kwargs):
         self.cleaned_name = super_clean_str(self.name)
-
         super(Brand, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -26,7 +32,7 @@ class Watch(models.Model):
     url = models.URLField(unique=True, blank=True, null=True)
     image = models.URLField(blank=True, null=True)
     name = models.CharField(max_length=60)
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name="watches", related_query_name="watch",)
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name="watches", related_query_name="watch")
     reference = models.CharField(max_length=30)
     cleaned_reference = models.CharField(max_length=30)
     description = models.TextField(max_length=2000, blank=True, null=True)
@@ -80,7 +86,7 @@ class Price(models.Model):
     price = MoneyField(max_digits=14, decimal_places=2, default_currency='USD')
     url = models.URLField()
     store = models.ForeignKey("main.Store", on_delete=models.CASCADE)
-    watch = models.ForeignKey("main.Watch", on_delete=models.CASCADE)
+    watch = models.ForeignKey("main.Watch", on_delete=models.CASCADE, related_name="prices", related_query_name="price")
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     def __str__(self):
