@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Brand, Watch
+from .models import Brand, Watch, Price, Store
 from django.db.models.functions import Substr
 from django.db.models import Count
 import string
 from django.views import View
+from django.db.models import OuterRef, Subquery, Exists
 
 # Create your views here.
 
@@ -37,5 +38,8 @@ class BrandView(View):
 class WatchView(View):
     def get(self, request, id):
         watch = get_object_or_404(Watch, pk=id)
+        # prices = Price.objects.filter(store=OuterRef('pk'), watch=watch).order_by('timestamp').values('price')
+        # stores = Store.objects.annotate(sale=Subquery(prices[:1])).filter(Exists(prices))
+        prices = Price.objects.filter(watch=watch).order_by('store', '-timestamp').distinct('store')
 
-        return render(request, 'main/watch.html', {'watch': watch})
+        return render(request, 'main/watch.html', {'watch': watch, 'prices': prices})

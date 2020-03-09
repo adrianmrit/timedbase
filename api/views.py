@@ -50,7 +50,7 @@ class AddWatchView(APIView):
         except Store.DoesNotExist:
             return None
 
-        price = Price(store=store, watch=watch, price=extra['price'], price_currency=extra['currency'])
+        price = Price(store=store, watch=watch, price=extra['price'], price_currency=extra['currency'], url=extra['sale_url'])
         price.save()
 
     def post(self, request):

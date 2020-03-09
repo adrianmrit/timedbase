@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load humanize %}
 
 {% block title %}{{ watch.name }}{% endblock %}
 
@@ -15,6 +16,18 @@
                     {% endif %}
                     <h2>{{ watch.name }}</h2>
                     <p>{{ watch.description }}</p>
+                </div>
+                <div class="e-shadow p-3 mb-5 mt-2 bg-white rounded" style="">
+                    <h2>Offers:</h2>
+                    {% for sale in prices %}
+                    <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ sale.store.name }}</h5>
+                        <p class="card-text"><b class="text-success">{{ sale.price }}</b><p> updated: {{ sale.timestamp|naturaltime }} </p></p>
+                        <a href="{{ sale.url }}" class="btn btn-primary">See offer</a>
+                    </div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
