@@ -30,7 +30,6 @@ class Brand(models.Model):
 # TODO: fix fields
 class Watch(models.Model):
     url = models.URLField(unique=True, blank=True, null=True)
-    image = models.URLField(blank=True, null=True)
     name = models.CharField(max_length=60)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name="watches", related_query_name="watch")
     reference = models.CharField(max_length=30)

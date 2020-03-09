@@ -5,6 +5,7 @@ from django.db.models import Count
 import string
 from django.views import View
 from django.db.models import OuterRef, Subquery, Exists
+from django.forms.models import model_to_dict
 
 # Create your views here.
 
@@ -38,8 +39,16 @@ class BrandView(View):
 class WatchView(View):
     def get(self, request, id):
         watch = get_object_or_404(Watch, pk=id)
-        # prices = Price.objects.filter(store=OuterRef('pk'), watch=watch).order_by('timestamp').values('price')
-        # stores = Store.objects.annotate(sale=Subquery(prices[:1])).filter(Exists(prices))
+
+        watch_details = model_to_dict(watch)
+        del watch_details['name']
+        del watch_details['url']
+        del watch_details['image']
+        del watch_details['description']
+        del watch_details['id']
+        del watch_details['cleaned_reference']
+        del watch_details['brand']
+
         prices = Price.objects.filter(watch=watch).order_by('store', '-timestamp').distinct('store')
 
-        return render(request, 'main/watch.html', {'watch': watch, 'prices': prices})
+        return render(request, 'main/watch.html', {'watch': watch, 'prices': prices, 'watch_details': watch_details})

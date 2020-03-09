@@ -14,8 +14,20 @@
                     {% else %}
                         <img src="{% static "images/defaultbrand.png" %}" class="img-fluid" alt="{{ watch.name }}">
                     {% endif %}
-                    <h2>{{ watch.name }}</h2>
+                    <h2><a href="{{ watch.url }}" target="_blank">{{ watch.name }}</a></h2>
                     <p>{{ watch.description }}</p>
+                    <table class="table table-sm table-hover">
+                        <tbody>
+                            {% for key, value in watch_details.items %}
+                                {% if value %}
+                                    <tr>
+                                        <th>{{ key }}</th>
+                                        <td>{{ value }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
                 <div class="e-shadow p-3 mb-5 mt-2 bg-white rounded" style="">
                     <h2>Offers:</h2>
@@ -24,7 +36,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ sale.store.name }}</h5>
                         <p class="card-text"><b class="text-success">{{ sale.price }}</b><p> updated: {{ sale.timestamp|naturaltime }} </p></p>
-                        <a href="{{ sale.url }}" class="btn btn-primary">See offer</a>
+                        <a href="{{ sale.url }}" class="btn btn-primary" target="_blank">See offer</a>
                     </div>
                     </div>
                     {% endfor %}
