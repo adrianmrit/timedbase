@@ -22,6 +22,10 @@ DATABASES = {
     }
 }
 
+
+# !I didn't realize I made this keys public...
+# Anyways, they do not work anymore
+# TODO: Keep private keys in an untracked file
 AWS_ACCESS_KEY_ID = 'AKIAZFN4FUN2LVTBASG4'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'timedbase'
